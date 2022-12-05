@@ -19,20 +19,24 @@ package frc.robot;
 public final class Constants {
     public static final class Drivetrain {
         public static final class CANIDs {
-            public static final int FRONT_LEFT = 1; // FIXME
-            public static final int FRONT_RIGHT = 2; // FIXME
-            public static final int BACK_LEFT = 3; // FIXME
-            public static final int BACK_RIGHT = 4; // FIXME
+            public static final int FRONT_LEFT = 2;
+            public static final int FRONT_RIGHT = 3;
+            public static final int BACK_LEFT = 1;
+            public static final int BACK_RIGHT = 4;
         }
 
         public static final class Inversion {
-            public static final boolean FRONT_LEFT = false; // FIXME
-            public static final boolean FRONT_RIGHT = false; // FIXME
-            public static final boolean BACK_LEFT = false; // FIXME
-            public static final boolean BACK_RIGHT = false; // FIXME
+            public static final boolean FRONT_LEFT = false;
+            public static final boolean FRONT_RIGHT = true;
+            public static final boolean BACK_LEFT = false;
+            public static final boolean BACK_RIGHT = true;
 
         }
 
-        public static final double ENCODER_DISTANCE_TO_METERS = 1.0; // FIXME
+        public static final double ENCODER_DISTANCE_TO_METERS = 1.0;
+    }
+
+    public static final class Teleop {
+        public static final double SPEED_LIMIT = 0.2;
     }
 }

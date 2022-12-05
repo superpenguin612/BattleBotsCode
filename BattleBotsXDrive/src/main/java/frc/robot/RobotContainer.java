@@ -12,6 +12,8 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
     private final Drivetrain drivetrain = new Drivetrain();
@@ -38,11 +40,24 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
                 new RunCommand(
                         () -> drivetrain.drive(
-                                xRateLimiter.calculate(joystick.getX()), // FIXME might need to be inverted
-                                yRateLimiter.calculate(joystick.getY()),
-                                thetaRateLimiter.calculate(joystick.getTwist()),
+                                xRateLimiter.calculate(-joystick.getX() * Constants.Teleop.SPEED_LIMIT),
+                                yRateLimiter.calculate(-joystick.getY() * Constants.Teleop.SPEED_LIMIT),
+                                thetaRateLimiter.calculate(-joystick.getTwist() * Constants.Teleop.SPEED_LIMIT),
                                 true),
                         drivetrain));
+
+        new JoystickButton(joystick, 7).whenHeld(
+                new StartEndCommand(() -> drivetrain.setMotorSpeeds(1, 1, 1, 1), drivetrain::stop, drivetrain));
+        new JoystickButton(joystick, 8).whenHeld(
+                new StartEndCommand(() -> drivetrain.setMotorSpeeds(1, 0, 0, 0), drivetrain::stop, drivetrain));
+        new JoystickButton(joystick, 9).whenHeld(
+                new StartEndCommand(() -> drivetrain.setMotorSpeeds(0, 1, 0, 0), drivetrain::stop, drivetrain));
+        new JoystickButton(joystick, 10).whenHeld(
+                new StartEndCommand(() -> drivetrain.setMotorSpeeds(0, 0, 1, 0), drivetrain::stop, drivetrain));
+        new JoystickButton(joystick, 11).whenHeld(
+                new StartEndCommand(() -> drivetrain.setMotorSpeeds(0, 0, 0, 1), drivetrain::stop, drivetrain));
+        new JoystickButton(joystick, 3).whenPressed(
+                new InstantCommand(drivetrain::resetGyro));
     }
 
     /**
