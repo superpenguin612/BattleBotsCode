@@ -1,0 +1,5 @@
+[submodule "BattleBotsXDrive/houndutil"]
+	path = BattleBotsXDrive/houndutil
+	url = https://github.com/frc868/houndutil
+	branch = 2022
+
