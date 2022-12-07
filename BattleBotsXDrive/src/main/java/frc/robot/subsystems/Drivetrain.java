@@ -104,9 +104,24 @@ public class Drivetrain extends SubsystemBase {
     /**
      * Convert x, y, and theta speeds into motor speeds and drive the robot.
      * 
-     * @param xSpeed     the left/right speed of the drivetrain. left is positive.
-     * @param ySpeed     the forward/backward speed of the drivetrain. forward is
+     * The coordinate plane in WPILib is different than a normal math-based one:
+     * 
+     *          +x
+     *           ▲
+     *      ┏━━━ ┃
+     *      ┃    ┃
+     *      ▼ +θ ┃
+     * +y ◀━━━━━━╳
+     * 
+     * The positive x direction is forward relative to the robot, or down the field
+     * when looking from an alliance station.
+     * The positive y direction is left relative to the robot, or left across the
+     * field when looking from an alliance station.
+     * The positive theta direction is counter clockwise rotation.
+     * 
+     * @param xSpeed     the forward/backward speed of the drivetrain. forward is
      *                   positive.
+     * @param ySpeed     the left/right speed of the drivetrain. left is positive.
      * @param thetaSpeed the rotational speed of the drivetrain. CCW is positive.
      */
     public void drive(double xSpeed, double ySpeed, double thetaSpeed, boolean isFieldOriented) {
@@ -120,10 +135,10 @@ public class Drivetrain extends SubsystemBase {
         }
 
         double[] speeds = new double[] {
-                ySpeed - xSpeed - thetaSpeed,
-                ySpeed + xSpeed + thetaSpeed,
-                ySpeed - xSpeed + thetaSpeed,
-                ySpeed + xSpeed - thetaSpeed }; // front left, front right, back right, back left
+                xSpeed - ySpeed - thetaSpeed,
+                xSpeed + ySpeed + thetaSpeed,
+                xSpeed - ySpeed + thetaSpeed,
+                xSpeed + ySpeed - thetaSpeed }; // front left, front right, back right, back left
         this.speeds = speeds;
 
         // it is possible for wheel speeds to go over 1, which is bad, so this

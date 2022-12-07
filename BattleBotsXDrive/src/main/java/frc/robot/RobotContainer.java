@@ -40,8 +40,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
                 new RunCommand(
                         () -> drivetrain.drive(
-                                xRateLimiter.calculate(-joystick.getX() * Constants.Teleop.SPEED_LIMIT),
-                                yRateLimiter.calculate(-joystick.getY() * Constants.Teleop.SPEED_LIMIT),
+                                xRateLimiter.calculate(-joystick.getY() * Constants.Teleop.SPEED_LIMIT),
+                                yRateLimiter.calculate(-joystick.getX() * Constants.Teleop.SPEED_LIMIT),
                                 thetaRateLimiter.calculate(-joystick.getTwist() * Constants.Teleop.SPEED_LIMIT),
                                 true),
                         drivetrain));
