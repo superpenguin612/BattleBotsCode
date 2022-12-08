@@ -8,6 +8,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -39,11 +40,17 @@ public class RobotContainer {
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(
                 new RunCommand(
-                        () -> drivetrain.drive(
-                                xRateLimiter.calculate(-joystick.getY() * Constants.Teleop.SPEED_LIMIT),
-                                yRateLimiter.calculate(-joystick.getX() * Constants.Teleop.SPEED_LIMIT),
-                                thetaRateLimiter.calculate(-joystick.getTwist() * Constants.Teleop.SPEED_LIMIT),
-                                true),
+                        () -> {
+                            double throttle = (-joystick.getThrottle() + 1) / 2.0; // converts to a value between 0 and
+                                                                                   // 1
+                            drivetrain.drive(
+                                    xRateLimiter.calculate(-joystick.getY() * Constants.Teleop.SPEED_LIMIT * throttle),
+                                    yRateLimiter.calculate(-joystick.getX() * Constants.Teleop.SPEED_LIMIT * throttle),
+                                    thetaRateLimiter
+                                            .calculate(-joystick.getTwist() * Constants.Teleop.SPEED_LIMIT * throttle),
+                                    true);
+                            SmartDashboard.putNumber("Throttle", throttle);
+                        },
                         drivetrain));
 
         new JoystickButton(joystick, 7).whenHeld(

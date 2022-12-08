@@ -37,6 +37,6 @@ public final class Constants {
     }
 
     public static final class Teleop {
-        public static final double SPEED_LIMIT = 0.2;
+        public static final double SPEED_LIMIT = 0.5;
     }
 }

@@ -46,6 +46,10 @@ public class Drivetrain extends SubsystemBase {
     private double joystickY = 0.0;
     private double joystickTwist = 0.0;
 
+    private double xSpeed = 0.0;
+    private double ySpeed = 0.0;
+    private double thetaSpeed = 0.0;
+
     private double[] speeds = new double[4];
     private double[] desaturatedSpeeds = new double[4];
 
@@ -78,10 +82,16 @@ public class Drivetrain extends SubsystemBase {
                                 () -> joystickY, LogLevel.MAIN),
                         new SingleItemLogger<Double>(LogType.NUMBER, "Joystick Twist",
                                 () -> joystickTwist, LogLevel.MAIN),
-                        new SingleItemLogger<double[]>(LogType.NUMBER_ARRAY, "Speeds",
+                        new SingleItemLogger<double[]>(LogType.NUMBER_ARRAY, "Wheel Speeds",
                                 () -> speeds, LogLevel.MAIN),
-                        new SingleItemLogger<double[]>(LogType.NUMBER_ARRAY, "Desaturated Speeds",
-                                () -> desaturatedSpeeds, LogLevel.MAIN)
+                        new SingleItemLogger<double[]>(LogType.NUMBER, "Desaturated Wheel Speeds",
+                                () -> desaturatedSpeeds, LogLevel.MAIN),
+                        new SingleItemLogger<Double>(LogType.NUMBER, "Corrected X Speed",
+                                () -> xSpeed, LogLevel.MAIN),
+                        new SingleItemLogger<Double>(LogType.NUMBER, "Corrected Y Speed",
+                                () -> ySpeed, LogLevel.MAIN),
+                        new SingleItemLogger<Double>(LogType.NUMBER, "Corrected Theta Speed",
+                                () -> thetaSpeed, LogLevel.MAIN)
 
                 ));
 
@@ -126,12 +136,15 @@ public class Drivetrain extends SubsystemBase {
      */
     public void drive(double xSpeed, double ySpeed, double thetaSpeed, boolean isFieldOriented) {
         if (isFieldOriented) {
-            ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed,
+            ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed,
                     thetaSpeed, navx.getRotation2d());
 
             xSpeed = chassisSpeeds.vxMetersPerSecond; // not actually m/s
             ySpeed = chassisSpeeds.vyMetersPerSecond; // not actually m/s
             thetaSpeed = chassisSpeeds.omegaRadiansPerSecond; // not actually rad/s
+            this.xSpeed = xSpeed;
+            this.ySpeed = ySpeed;
+            this.thetaSpeed = thetaSpeed;
         }
 
         double[] speeds = new double[] {
