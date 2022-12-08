@@ -73,6 +73,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new InstantCommand(); // does nothing
+        // drives right at 0.5 speed for 1.5 seconds
+        return new RunCommand(() -> drivetrain.drive(0, -0.5, 0, false), drivetrain).withTimeout(1.5);
     }
 }
